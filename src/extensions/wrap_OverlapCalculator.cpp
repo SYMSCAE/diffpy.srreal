@@ -314,7 +314,7 @@ void wrap_OverlapCalculator(nb::module_& m)
                 doc_OverlapCalculator_atomradiitable)
         ;
         OverlapCalculatorPickleSuite::bind(overlapcalculator);
-        
+
 }
 
 }   // namespace srrealmodule

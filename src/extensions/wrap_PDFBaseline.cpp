@@ -84,7 +84,7 @@ class PDFBaselineWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "create", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PDFBaseline.create() called"
@@ -105,7 +105,7 @@ class PDFBaselineWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "type", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PDFBaseline.type() called"

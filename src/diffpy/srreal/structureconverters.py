@@ -125,8 +125,10 @@ class _DiffPyStructureMetadata(object):
 
 # end of class _DiffPyStructureMetadata
 
+
 def _installDiffPyStructureMetadata(cls):
-    """Install diffpy.structure metadata hooks without multiple inheritance."""
+    """Install diffpy.structure metadata hooks without multiple
+    inheritance."""
     cls.pdffit = _DiffPyStructureMetadata.pdffit
     cls.hasMetadata = staticmethod(_DiffPyStructureMetadata.hasMetadata)
     cls._customPQConfig = _DiffPyStructureMetadata._customPQConfig

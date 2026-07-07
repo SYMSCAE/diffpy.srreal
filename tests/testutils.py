@@ -82,7 +82,7 @@ class HasCustomPQConfig(object):
     def _customPQConfig(self, pqobj):
         self.cpqcount += 1
         return
-    
+
 
 def _installCustomPQConfig(cls):
     """Install the test custom-PQ hook without using a mixin base."""

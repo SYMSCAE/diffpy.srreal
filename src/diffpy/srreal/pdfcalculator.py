@@ -18,12 +18,9 @@ Top-level classes for PDF calculation:
     PDFCalculator      -- calculate PDF by peak summation in real space
 """
 
-from diffpy.srreal.srreal_ext import (
-    DebyePDFCalculator as _DebyePDFCalculator,
-    PDFCalculator as _PDFCalculator,
-    fftftog,
-    fftgtof,
-)
+from diffpy.srreal.srreal_ext import DebyePDFCalculator as _DebyePDFCalculator
+from diffpy.srreal.srreal_ext import PDFCalculator as _PDFCalculator
+from diffpy.srreal.srreal_ext import fftftog, fftgtof
 from diffpy.srreal.wraputils import (
     propertyFromExtDoubleAttr,
     setattrFromKeywordArguments,
@@ -195,6 +192,7 @@ def _defineCommonInterface(cls):
 
 # class DebyePDFCalculator ---------------------------------------------------
 
+
 class DebyePDFCalculator(_DebyePDFCalculator):
     __doc__ = _DebyePDFCalculator.__doc__
 
@@ -250,6 +248,7 @@ DebyePDFCalculator.qstep = propertyFromExtDoubleAttr(
 # End of class DebyePDFCalculator
 
 # PDFCalculator --------------------------------------------------------------
+
 
 class PDFCalculator(_PDFCalculator):
     __doc__ = _PDFCalculator.__doc__

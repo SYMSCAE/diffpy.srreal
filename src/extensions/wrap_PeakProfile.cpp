@@ -120,7 +120,7 @@ class PeakProfileWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "create", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                     throw nb::type_error(
                         "pure virtual method PeakProfile.create() called"
@@ -142,7 +142,7 @@ class PeakProfileWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "type", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PeakProfile.type() called"
@@ -179,7 +179,7 @@ class PeakProfileWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "ticker", false);
 
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object ptic = nb_trampoline.base().attr(ticket.key)();
                 return nb::cast<EventTicker&>(ptic);

@@ -97,9 +97,9 @@ NB_MODULE(srreal_ext, m)
         PyObject* sysmods = PyImport_GetModuleDict();
 
         const char* fqname = "diffpy.srreal.srreal_ext";
-        if (PyDict_GetItemString(sysmods, fqname) == nullptr) 
+        if (PyDict_GetItemString(sysmods, fqname) == nullptr)
         {
-            if (PyDict_SetItemString(sysmods, fqname, m.ptr()) < 0) 
+            if (PyDict_SetItemString(sysmods, fqname, m.ptr()) < 0)
             {
                 nb::raise_python_error();
             }

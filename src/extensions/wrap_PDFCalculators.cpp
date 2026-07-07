@@ -490,7 +490,7 @@ class DebyePDFCalculatorPickleSuite :
                 ;
             cls.attr("__getstate_manages_dict__") = nb::none();
         }
-        
+
 
         static nb::tuple getstate(nb::object obj)
         {
