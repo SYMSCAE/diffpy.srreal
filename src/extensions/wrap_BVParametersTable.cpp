@@ -388,7 +388,7 @@ void wrap_BVParametersTable(nb::module_& m)
                 doc_BVParametersTable_getAll)
         ;
         SerializationPickleSuite<BVParametersTable, DICT_GUARD>::bind(bvtable);
-        
+
 }
 
 }   // namespace srrealmodule

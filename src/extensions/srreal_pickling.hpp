@@ -545,12 +545,12 @@ createStructureAdapterFromString(const std::string &content);
 
 template <class Adapter>
 std::shared_ptr<Adapter>
-createAdapterFromString(const std::string &content) 
+createAdapterFromString(const std::string &content)
 {
     StructureAdapterPtr base = createStructureAdapterFromString(content);
 
     auto rv = std::dynamic_pointer_cast<Adapter>(base);
-    if (!rv) 
+    if (!rv)
     {
         throw nb::type_error(
             "serialized content does not contain the requested adapter type"

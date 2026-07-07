@@ -105,7 +105,7 @@ class PDFEnvelopeWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "create", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PDFEnvelope.create() called"
@@ -126,7 +126,7 @@ class PDFEnvelopeWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "type", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PDFEnvelope.type() called"
@@ -145,7 +145,7 @@ class PDFEnvelopeWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "__call__", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PDFEnvelope.__call__() called"

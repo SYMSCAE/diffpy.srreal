@@ -237,7 +237,7 @@ class ScatteringFactorTableWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "create", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method ScatteringFactorTable.create() called"
@@ -258,7 +258,7 @@ class ScatteringFactorTableWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "type", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method ScatteringFactorTable.type() called"
@@ -277,7 +277,7 @@ class ScatteringFactorTableWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "radiationType", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method ScatteringFactorTable.radiationType() called"
@@ -303,7 +303,7 @@ class ScatteringFactorTableWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "ticker", false);
 
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object ptic = nb_trampoline.base().attr(ticket.key)();
                 return nb::cast<EventTicker&>(ptic);
@@ -374,7 +374,7 @@ void wrap_ScatteringFactorTable(nb::module_& m)
     wrap_registry_methods(sftb)
         .def(nb::init<>())
         .def("radiationType",
-                [](const ScatteringFactorTable &obj) 
+                [](const ScatteringFactorTable &obj)
                 {
                     return std::string(obj.radiationType());
                 },
@@ -483,7 +483,7 @@ void wrap_ScatteringFactorTable(nb::module_& m)
             nb::arg("tp"),
             doc_ScatteringFactorTableOwner_setScatteringFactorTableByType)
         .def("getRadiationType",
-                [](const SFTOwner &obj) 
+                [](const SFTOwner &obj)
                 {
                     return std::string(obj.getRadiationType());
                 },

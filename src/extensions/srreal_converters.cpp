@@ -68,7 +68,7 @@ nb::object newNumPyArray(int dim, const int* sz, int typenum)
         dims.begin(),
         [](int v) { return static_cast<npy_intp>(v); }
     );
-    
+
     PyObject *arr = PyArray_SimpleNew(
         dim,
         dims.empty() ? nullptr : dims.data(),
@@ -77,7 +77,7 @@ nb::object newNumPyArray(int dim, const int* sz, int typenum)
 
     if (!arr)
         throw nb::python_error();
-    
+
     return nb::steal<nb::object>(arr);
 }
 
@@ -89,18 +89,18 @@ namespace srrealmodule {
 void wrap_exceptions()
 {
     nb::register_exception_translator(
-        [](const std::exception_ptr& p, void*) 
+        [](const std::exception_ptr& p, void*)
         {
-            try 
+            try
             {
                 if (p)
                     std::rethrow_exception(p);
-            } 
-            catch (const DoubleAttributeError& e) 
+            }
+            catch (const DoubleAttributeError& e)
             {
                 PyErr_SetString(PyExc_AttributeError, e.what());
-            } 
-            catch (const invalid_argument& e) 
+            }
+            catch (const invalid_argument& e)
             {
                 PyErr_SetString(PyExc_ValueError, e.what());
             }
@@ -300,7 +300,7 @@ extractQuantityType(
 
     nb::object it = nb::steal<nb::object>(iter);
 
-    while (PyObject* item = PyIter_Next(it.ptr())) 
+    while (PyObject* item = PyIter_Next(it.ptr()))
     {
         nb::object item_obj = nb::steal<nb::object>(item);
         tmp.push_back(nb::cast<double>(item_obj));

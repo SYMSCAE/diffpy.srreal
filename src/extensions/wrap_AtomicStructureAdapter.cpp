@@ -362,7 +362,7 @@ class MakeWrapper :
         {
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "diff", false);
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object sdobj = nb_trampoline.base().attr(ticket.key)(other);
                 sync_StructureDifference(sdobj);
@@ -426,7 +426,7 @@ class atomadapter_indexing : public nb::def_visitor<atomadapter_indexing>
 
         typedef AtomicStructureAdapter Container;
 
-        
+
         template <typename Class, typename... Extra>
         void execute(Class& cls, const Extra&...)
         {
@@ -465,7 +465,7 @@ class atomadapter_indexing : public nb::def_visitor<atomadapter_indexing>
             // make sure slice is of a correct type and has a copy
             // of any additional structure data.
             StructureAdapterPtr rv = container.clone();
-            AtomicStructureAdapterPtr rva = 
+            AtomicStructureAdapterPtr rva =
                 std::static_pointer_cast<AtomicStructureAdapter>(rv);
             rva->clear();
             // handle index ranges for a valid and empty slice
@@ -494,7 +494,7 @@ class atomadapter_indexing : public nb::def_visitor<atomadapter_indexing>
 
     private:
 
-    
+
         static int normalize_index(const Container& container, int idx)
         {
             ensure_index_bounds(idx, -int(container.size()), container.size());

@@ -422,11 +422,11 @@ std::vector<int> parsepairindex(nb::object i)
 {
     std::vector<int> rv;
     // string equal "all" or "ALL"
-    if (nb::isinstance<nb::str>(i)) 
+    if (nb::isinstance<nb::str>(i))
     {
         std::string s = nb::cast<std::string>(i);
 
-        if (s != PairQuantity::ALLATOMSSTR && s != "ALL") 
+        if (s != PairQuantity::ALLATOMSSTR && s != "ALL")
         {
             throw nb::value_error("String argument must be 'all' or 'ALL'.");
         }
@@ -443,7 +443,7 @@ std::vector<int> parsepairindex(nb::object i)
 
 std::vector<std::string> parsepairtypes(nb::object smbl)
 {
-    if (nb::isinstance<nb::str>(smbl)) 
+    if (nb::isinstance<nb::str>(smbl))
     {
         return { nb::cast<std::string>(smbl) };
     }
@@ -526,9 +526,9 @@ void set_type_mask(PairQuantity& obj,
     std::vector<std::string> isymbols = parsepairtypes(smbli);
     std::vector<std::string> jsymbols = parsepairtypes(smblj);
     vector<string>::const_iterator tii, tjj;
-    for (const std::string &ti : isymbols) 
+    for (const std::string &ti : isymbols)
     {
-        for (const std::string &tj : jsymbols) 
+        for (const std::string &tj : jsymbols)
         {
             obj.setTypeMask(ti, tj, mask);
         }
@@ -663,7 +663,7 @@ class PairQuantityWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "ticker", false);
 
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object ptic = nb_trampoline.base().attr(ticket.key)();
                 return nb::cast<EventTicker &>(ptic);
@@ -839,7 +839,7 @@ void wrap_PairQuantity(nb::module_& m)
                     return to_bytes(pq.getParallelData());
                 },
                 doc_BasePairQuantity__getParallelData)
-        .def("setStructure", [](PairQuantity &pq, nb::object stru) 
+        .def("setStructure", [](PairQuantity &pq, nb::object stru)
                 {
                     pq.setStructure(stru);
                 },
@@ -880,7 +880,7 @@ void wrap_PairQuantity(nb::module_& m)
                 doc_BasePairQuantity_ticker)
         .def("copy", pqcopy,
                 doc_BasePairQuantity_copy)
-        .def("__reduce__", [](nb::object) -> nb::object 
+        .def("__reduce__", [](nb::object) -> nb::object
         {
             throw std::runtime_error("cannot pickle BasePairQuantity object");
         });
@@ -904,7 +904,7 @@ void wrap_PairQuantity(nb::module_& m)
                 &PairQuantityExposed::ticker,
                 nb::rv_policy::reference_internal,
                 doc_PairQuantity_ticker)
-        .def("_getParallelData", [](const PairQuantityExposed &pq) 
+        .def("_getParallelData", [](const PairQuantityExposed &pq)
                 {
                     return to_bytes(pq.getParallelData());
                 },
@@ -940,7 +940,7 @@ void wrap_PairQuantity(nb::module_& m)
         .def("_restorePartialValue",
                 &PairQuantityExposed::restorePartialValue,
                 doc_PairQuantity__restorePartialValue)
-        .def_prop_ro("_value", [](PairQuantityExposed &pq) -> QuantityType & 
+        .def_prop_ro("_value", [](PairQuantityExposed &pq) -> QuantityType &
                 {
                     return pq.value();
                 },

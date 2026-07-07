@@ -164,7 +164,7 @@ void wrap_StructureDifference(nb::module_& m)
         .def(nb::init<>())
         .def(nb::init<const StructureDifference&>(), nb::arg("sd"),
                     doc_StructureDifference_init_copy)
-        .def(nb::init<StructureAdapterPtr, StructureAdapterPtr>(), 
+        .def(nb::init<StructureAdapterPtr, StructureAdapterPtr>(),
                     nb::arg("stru0"), nb::arg("stru1"),
                     doc_StructureDifference_init_structures)
         .def_rw("stru0", &StructureDifference::stru0)

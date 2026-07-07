@@ -356,7 +356,7 @@ class StructureAdapterWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "siteAtomType", false);
 
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object atp = nb_trampoline.base().attr(ticket.key)(idx);
                 rv = nb::cast<std::string>(atp);
@@ -378,7 +378,7 @@ class StructureAdapterWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "siteCartesianPosition", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method StructureAdapter.siteCartesianPosition() called"
@@ -428,7 +428,7 @@ class StructureAdapterWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "siteCartesianUij", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method StructureAdapter.siteCartesianUij() called"

@@ -149,7 +149,7 @@ class PeakWidthModelWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "create", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PeakWidthModel.create() called"
@@ -170,7 +170,7 @@ class PeakWidthModelWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "type", true);
 
-            if (!ticket.key.is_valid()) 
+            if (!ticket.key.is_valid())
             {
                 throw nb::type_error(
                     "pure virtual method PeakWidthModel.type() called"
@@ -215,7 +215,7 @@ class PeakWidthModelWrap :
             nb::gil_scoped_acquire gil;
             nb::detail::ticket ticket(nb_trampoline, "ticker", false);
 
-            if (ticket.key.is_valid()) 
+            if (ticket.key.is_valid())
             {
                 nb::object ptic = nb_trampoline.base().attr(ticket.key)();
                 return nb::cast<EventTicker&>(ptic);
@@ -301,7 +301,7 @@ void wrap_PeakWidthModel(nb::module_& m)
         .def(nb::init<>())
         ;
         SerializationPickleSuite<ConstantPeakWidth, DICT_GUARD>::bind(constantpeakwidth);
-    
+
     nb::class_<DebyeWallerPeakWidth, PeakWidthModel> debywallerpeakwidth(m,
             "DebyeWallerPeakWidth", doc_DebyeWallerPeakWidth);
     debywallerpeakwidth
