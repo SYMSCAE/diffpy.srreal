@@ -9,7 +9,6 @@ Packages:   diffpy.srreal
 import glob
 import os
 import sys
-from ctypes.util import find_library
 from pathlib import Path
 
 import numpy
@@ -31,30 +30,6 @@ def get_nanobind_config():
 
 
 nanobind_macros = [("NB_COMPACT_ASSERTIONS", None)]
-
-
-def get_boost_libraries():
-    major, minor = sys.version_info[:2]
-    candidates = [
-        f"boost_python{major}{minor}",
-        f"boost_python{major}",
-        "boost_python",
-    ]
-
-    conda_prefix = os.environ.get("CONDA_PREFIX")
-    if conda_prefix:
-        libdir = os.path.join(conda_prefix, "lib")
-        for name in candidates:
-            so = f"lib{name}.so"
-            if os.path.isfile(os.path.join(libdir, so)):
-                return [name]
-
-    # fallback to ldconfig
-    for name in candidates:
-        found = find_library(name)
-        if found:
-            return [name]
-    raise RuntimeError("Cannot find a suitable Boost.Python library.")
 
 
 def get_boost_config():
@@ -121,7 +96,7 @@ boost_cfg = get_boost_config()
 objcryst_libs = get_objcryst_libraries()
 
 ext_kws = {
-    "libraries": ["diffpy"] + get_boost_libraries() + objcryst_libs,
+    "libraries": ["diffpy"] + objcryst_libs,
     "extra_compile_args": compile_args,
     "extra_link_args": extra_link_args,
     "include_dirs": [numpy.get_include()] + boost_cfg["include_dirs"],
