@@ -11,60 +11,6 @@ VERIFY_REVISION = (
     / "cmake"
     / "VerifyLibdiffpyRevision.cmake"
 )
-FETCH_LIBDIFFPY = VERIFY_REVISION.with_name("FetchLibdiffpy.cmake")
-
-
-@pytest.fixture
-def fetch_source(tmp_path):
-    cmake = shutil.which("cmake")
-    if not cmake:
-        pytest.skip("Build configuration checks require CMake.")
-    project = tmp_path / "fetch-project"
-    project.mkdir()
-    (project / "CMakeLists.txt").write_text(
-        "cmake_minimum_required(VERSION 3.20)\n"
-        "project(FetchCheck LANGUAGES NONE)\n"
-        f'include("{FETCH_LIBDIFFPY.as_posix()}")\n'
-        'file(WRITE "${CMAKE_BINARY_DIR}/source-dir.txt"\n'
-        '     "${LIBDIFFPY_SOURCE_DIR}")\n'
-    )
-
-    def configure(source):
-        build = tmp_path / "fetch-build"
-        result = subprocess.run(
-            [
-                cmake,
-                "-S",
-                str(project),
-                "-B",
-                str(build),
-                f"-DFETCHCONTENT_SOURCE_DIR_LIBDIFFPY={source}",
-                "-DCMAKE_DISABLE_FIND_PACKAGE_Git=TRUE",
-            ],
-            capture_output=True,
-            text=True,
-        )
-        return result, build
-
-    return configure
-
-
-def test_local_archive_override_without_git(tmp_path, fetch_source):
-    source = tmp_path / "libdiffpy"
-    template = source / "src" / "diffpy" / "version.tpl"
-    template.parent.mkdir(parents=True)
-    template.write_text("// libdiffpy version template\n")
-    result, build = fetch_source(source)
-    assert result.returncode == 0, result.stdout + result.stderr
-    assert (build / "source-dir.txt").read_text() == source.as_posix()
-
-
-def test_local_archive_override_requires_sources(tmp_path, fetch_source):
-    source = tmp_path / "empty-libdiffpy"
-    source.mkdir()
-    result, _ = fetch_source(source)
-    assert result.returncode != 0
-    assert "Missing libdiffpy sources" in result.stderr
 
 
 @pytest.fixture
@@ -145,7 +91,8 @@ def test_mismatched_git_revision(revision_check):
     assert "libdiffpy revision mismatch" in result.stderr
     assert revision in result.stderr
     assert "0" * 40 in result.stderr
-    assert "FETCHCONTENT_SOURCE_DIR_LIBDIFFPY" in result.stderr
+    diagnostic = " ".join(result.stderr.split())
+    assert "git submodule update --init --recursive" in diagnostic
 
 
 def test_archive_does_not_use_parent_git_revision(revision_check):

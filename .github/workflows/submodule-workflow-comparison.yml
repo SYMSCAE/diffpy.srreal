@@ -1,0 +1,32 @@
+name: Compare shared workflows before and after submodule support
+
+on:
+  push:
+    branches:
+      - codex/submodule-workflow-proof
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  before:
+    name: Before - original shared workflow
+    uses: scikit-package/release-scripts/.github/workflows/_tests-on-pr.yml@729c3e7ade28ff4494c3511c91d815ec1488baf2
+    with:
+      project: diffpy.srreal
+      python_version: 3.14
+      c_extension: true
+      headless: false
+      upload_coverage: false
+
+  after:
+    name: After - submodule support enabled
+    uses: SYMSCAE/release-scripts/.github/workflows/_tests-on-pr.yml@d64728a2004299aab35d9316432a10a50a7680b2
+    with:
+      project: diffpy.srreal
+      python_version: 3.14
+      c_extension: true
+      headless: false
+      upload_coverage: false
+      submodules: recursive

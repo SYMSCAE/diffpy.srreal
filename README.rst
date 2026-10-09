@@ -105,24 +105,20 @@ To install using ``pip`` into your ``diffpy.srreal_env`` environment, type ::
 
         pip install diffpy.srreal
 
-If you prefer to install from sources, after installing the dependencies, obtain the source archive from
-`GitHub <https://github.com/diffpy/diffpy.srreal/>`_. Once installed, ``cd`` into your ``diffpy.srreal`` directory
-and run the following ::
+To install from a Git checkout, initialize the pinned libdiffpy submodule
+before building ::
 
+        git clone --recurse-submodules https://github.com/diffpy/diffpy.srreal.git
+        cd diffpy.srreal
         pip install .
 
-Source builds use CMake to download libdiffpy at the commit recorded in
-``cmake/LibdiffpyVersion.cmake`` and verify the archive's SHA-256 checksum.
-This applies to both repository checkouts and source distributions; no Git
-submodule initialization is needed. A C++23 compiler, Boost.Serialization,
-and GSL must be installed separately.
+For an existing checkout, run ``git submodule update --init --recursive``
+before ``pip install .``. A C++23 compiler, Boost.Serialization, and GSL must
+be installed separately.
 
-To build without downloading libdiffpy, extract the pinned archive or check
-out that exact commit locally, then supply its absolute path ::
-
-        pip install . -Ccmake.define.FETCHCONTENT_SOURCE_DIR_LIBDIFFPY=/absolute/path/to/libdiffpy
-
-Other build dependencies must also be available for a fully offline build.
+Source distributions created with ``python -m build --sdist`` include the
+libdiffpy sources and build without Git or a libdiffpy download. The remaining
+build dependencies must also be available for a fully offline build.
 
 Getting Started
 ---------------

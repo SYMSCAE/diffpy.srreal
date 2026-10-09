@@ -6,10 +6,11 @@ on:
 
 jobs:
   tests-on-pr:
-    uses: scikit-package/release-scripts/.github/workflows/_tests-on-pr.yml@v0
+    uses: SYMSCAE/release-scripts/.github/workflows/_tests-on-pr.yml@d64728a2004299aab35d9316432a10a50a7680b2
     with:
       project: diffpy.srreal
       c_extension: true
+      submodules: recursive
       headless: false
       run: |
         set -e

@@ -8,10 +8,11 @@ on:
 
 jobs:
   release:
-    uses: scikit-package/release-scripts/.github/workflows/_build-wheel-release-upload.yml@v0
+    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel-release-upload.yml@d64728a2004299aab35d9316432a10a50a7680b2
     with:
       project: diffpy.srreal
       c_extension: true
+      submodules: recursive
       maintainer_github_username: sbillinge
     secrets:
       PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}

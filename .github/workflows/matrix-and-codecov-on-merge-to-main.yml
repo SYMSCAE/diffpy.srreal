@@ -12,10 +12,11 @@ on:
 
 jobs:
   matrix-coverage:
-    uses: scikit-package/release-scripts/.github/workflows/_matrix-and-codecov-on-merge-to-main.yml@v0
+    uses: SYMSCAE/release-scripts/.github/workflows/_matrix-and-codecov-on-merge-to-main.yml@d64728a2004299aab35d9316432a10a50a7680b2
     with:
       project: diffpy.srreal
       c_extension: true
+      submodules: recursive
       headless: false
       run: |
         set -e

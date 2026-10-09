@@ -5,9 +5,10 @@ on:
 
 jobs:
   docs:
-    uses: scikit-package/release-scripts/.github/workflows/_release-docs.yml@v0
+    uses: SYMSCAE/release-scripts/.github/workflows/_release-docs.yml@d64728a2004299aab35d9316432a10a50a7680b2
     with:
       project: diffpy.srreal
       c_extension: true
+      submodules: recursive
       python_version: 0
       headless: false
