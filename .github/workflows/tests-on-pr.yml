@@ -19,3 +19,34 @@ jobs:
         fi
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  windows-tests:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          channels: conda-forge
+          auto-activate-base: false
+          python-version: ${{ matrix.python-version }}
+      - name: Install build and test requirements
+        run: |
+          conda install --yes --file requirements/conda.txt
+          conda install --yes --file requirements/tests.txt
+          conda install --yes --file requirements/build.txt
+      - name: Build and install the wheel
+        run: python -m pip install . --no-deps
+      - name: Import the compiled extension
+        run: python -c "import diffpy.srreal.srreal_ext"
+      - name: Test the installed package
+        run: python -m pytest

@@ -36,6 +36,11 @@ file(GLOB LIBDIFFPY_SOURCES CONFIGURE_DEPENDS
 # ObjCryst conversion uses the public Python API, so it does not depend on
 # pyobjcryst's private static library, compiler, REAL precision, or nanobind ABI.
 list(FILTER LIBDIFFPY_SOURCES EXCLUDE REGEX "ObjCryst")
+if(WIN32)
+    include(cmake/LibdiffpyWindows.cmake)
+    list(FILTER LIBDIFFPY_SOURCES EXCLUDE REGEX "/runtimepath\\.cpp$")
+    list(APPEND LIBDIFFPY_SOURCES "${LIBDIFFPY_WINDOWS_RUNTIME}")
+endif()
 # Include every object: libdiffpy has static factory/serialization registrars
 # that an ordinary static archive link can otherwise discard.
 add_library(diffpy_core OBJECT ${LIBDIFFPY_SOURCES})
@@ -49,6 +54,10 @@ target_include_directories(diffpy_core PUBLIC
     "${LIBDIFFPY_SOURCE_DIR}/src"
 )
 target_compile_definitions(diffpy_core PRIVATE DIFFPYRUNTIMERELPATH=data)
+if(WIN32)
+    # The extension also includes libdiffpy headers and uses M_PI.
+    target_compile_definitions(diffpy_core PUBLIC _USE_MATH_DEFINES NOMINMAX)
+endif()
 target_link_libraries(diffpy_core PUBLIC Boost::serialization GSL::gsl GSL::gslcblas ${CMAKE_DL_LIBS})
 
 file(GLOB SRREAL_SOURCES CONFIGURE_DEPENDS "src/extensions/*.cpp")

@@ -1,0 +1,72 @@
+// Windows path discovery for the embedded libdiffpy core. LineReader below
+// this section is copied unchanged from the pinned libdiffpy source.
+#include <cassert>
+#include <cstdlib>
+#include <filesystem>
+#include <sstream>
+#include <stdexcept>
+#include <system_error>
+#include <vector>
+#include <windows.h>
+
+#include <diffpy/runtimepath.hpp>
+
+using namespace std;
+
+namespace {
+
+namespace fs = std::filesystem;
+
+fs::path moduleDirectory()
+{
+    HMODULE module = nullptr;
+    if (!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                reinterpret_cast<LPCWSTR>(&moduleDirectory), &module))
+    {
+        throw system_error(GetLastError(), system_category(),
+                "Cannot locate the libdiffpy module");
+    }
+    vector<wchar_t> filename(256);
+    for (;;)
+    {
+        DWORD count = GetModuleFileNameW(module, filename.data(),
+                static_cast<DWORD>(filename.size()));
+        if (!count)
+        {
+            throw system_error(GetLastError(), system_category(),
+                    "Cannot read the libdiffpy module path");
+        }
+        if (count < filename.size())
+        {
+            return fs::path(wstring(filename.data(), count)).parent_path();
+        }
+        filename.resize(filename.size() * 2);
+    }
+}
+
+const string& diffpyruntime()
+{
+    // Resolve relative to the extension module, never the working directory.
+    static const fs::path module_directory = moduleDirectory();
+    thread_local string result;
+    const char* override_path = getenv("DIFFPYRUNTIME");
+    fs::path directory;
+    if (override_path && *override_path)
+    {
+        directory = override_path;
+    }
+    else
+    {
+        directory = module_directory / "data";
+    }
+    if (!fs::is_directory(directory))
+    {
+        throw runtime_error("Directory '" + directory.string() +
+                "' does not exist.");
+    }
+    result = fs::canonical(directory).string();
+    return result;
+}
+
+}   // namespace
