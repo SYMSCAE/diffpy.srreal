@@ -1,0 +1,4 @@
+[submodule "extern/libdiffpy"]
+	path = extern/libdiffpy
+	url = https://github.com/SYMSCAE/libdiffpy.git
+	branch = win-fix

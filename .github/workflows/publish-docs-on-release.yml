@@ -8,6 +8,7 @@ jobs:
     uses: scikit-package/release-scripts/.github/workflows/_release-docs.yml@v0
     with:
       project: diffpy.srreal
+      submodules: recursive
       c_extension: true
       python_version: 0
       headless: false

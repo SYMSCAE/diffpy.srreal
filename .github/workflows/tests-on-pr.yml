@@ -9,6 +9,7 @@ jobs:
     uses: scikit-package/release-scripts/.github/workflows/_tests-on-pr.yml@v0
     with:
       project: diffpy.srreal
+      submodules: recursive
       c_extension: true
       headless: false
       run: |

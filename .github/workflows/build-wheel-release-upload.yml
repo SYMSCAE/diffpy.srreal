@@ -11,6 +11,7 @@ jobs:
     uses: scikit-package/release-scripts/.github/workflows/_build-wheel-release-upload.yml@v0
     with:
       project: diffpy.srreal
+      submodules: recursive
       c_extension: true
       maintainer_github_username: sbillinge
     secrets:
