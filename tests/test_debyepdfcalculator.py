@@ -49,7 +49,8 @@ class TestDebyePDFCalculator(unittest.TestCase):
         return
 
     def test_structure_metadata_ignored(self):
-        """Check that pdffit metadata does not configure the calculator."""
+        """Check that pdffit metadata does not configure the
+        calculator."""
         bare = self.tio2rutile.copy()
         bare.pdffit = {}
         meta = self.tio2rutile.copy()

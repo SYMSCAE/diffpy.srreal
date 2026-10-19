@@ -163,8 +163,8 @@ def _defineCommonInterface(cls):
     def _call_kwargs(self, structure=None, **kwargs):
         """Calculate PDF for the given structure as an (r, G) tuple.
         Keyword arguments can be used to configure calculator
-        attributes. Structure pdffit metadata is ignored; pass any desired
-        settings explicitly.
+        attributes. Structure pdffit metadata is ignored; pass any
+        desired settings explicitly.
 
         Attributes
         ----------
