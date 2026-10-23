@@ -1,5 +1,7 @@
 libboost-devel
 libdiffpy>=1.5.0
+libobjcryst
+pyobjcryst
 gsl
 diffpy.structure
 periodictable
