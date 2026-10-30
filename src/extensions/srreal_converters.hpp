@@ -25,22 +25,16 @@
 #include <nanobind/stl/shared_ptr.h>
 
 #include <algorithm>
-#include <memory>
 #include <string>
-#include <type_traits>
 
 #include <diffpy/srreal/forwardtypes.hpp>
 #include <diffpy/srreal/R3linalg.hpp>
 #include <diffpy/srreal/QuantityType.hpp>
 #include <diffpy/version.hpp>
 
-#if DIFFPY_VERSION < 1004000000
-#error diffpy.srreal requires libdiffpy 1.4.0 or later.
+#if DIFFPY_VERSION < 1004999500
+#error diffpy.srreal requires libdiffpy 1.5.0-rc.0 or later.
 #endif
-
-static_assert(std::is_same_v<diffpy::srreal::StructureAdapterPtr,
-        std::shared_ptr<diffpy::srreal::StructureAdapter>>,
-        "diffpy.srreal requires libdiffpy with the C++23/std::shared_ptr API.");
 
 namespace nb = nanobind;
 
