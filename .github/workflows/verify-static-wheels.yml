@@ -1,0 +1,10 @@
+name: Verify static wheels
+on:
+  push:
+    branches:
+      - codex/verify-static-wheels-eef1685
+permissions:
+  contents: read
+jobs:
+  wheels:
+    uses: ./.github/workflows/build-wheels.yml
