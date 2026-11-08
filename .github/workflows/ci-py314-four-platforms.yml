@@ -1,0 +1,19 @@
+name: Python 3.14 wheels on four platforms
+
+on:
+  push:
+    branches:
+      - codex/ci-py314-four-platforms
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wheel-extension:
+    uses: SYMSCAE/release-scripts/.github/workflows/_build-python-wheel-extension.yml@d32a7072cfe70913b4d598233cd09906dcca0894
+    with:
+      project: diffpy.srreal
+      submodules: recursive
+      latest_python_version: 3.14
+      python_versions_json: '["3.14"]'
