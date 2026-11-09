@@ -11,9 +11,11 @@ permissions:
 
 jobs:
   wheel-extension:
-    uses: SYMSCAE/release-scripts/.github/workflows/_build-python-wheel-extension.yml@d32a7072cfe70913b4d598233cd09906dcca0894
+    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel.yml@09d0be1641978473bf6fefdb577d4eb2afa0b0eb
     with:
       project: diffpy.srreal
+      c_extension: true
+      build_c_ext_with_cibw: true
       submodules: recursive
       latest_python_version: 3.14
       python_versions_json: '["3.14"]'
