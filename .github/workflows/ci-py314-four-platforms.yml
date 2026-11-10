@@ -1,4 +1,4 @@
-name: Python 3.14 wheels on four platforms
+name: cibw wheels on four platforms
 
 on:
   push:
@@ -10,12 +10,19 @@ permissions:
   contents: read
 
 jobs:
+  # Same chain as the release workflow: versions come from the classifiers.
+  get-python-version:
+    uses: SYMSCAE/release-scripts/.github/workflows/_get-python-version-latest.yml@b2587d489d9a57082d752997ce20b51cc338eaa6
+    with:
+      python_version: 0
+
   wheel-extension:
-    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel.yml@09d0be1641978473bf6fefdb577d4eb2afa0b0eb
+    needs: [get-python-version]
+    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel.yml@b2587d489d9a57082d752997ce20b51cc338eaa6
     with:
       project: diffpy.srreal
       c_extension: true
       build_c_ext_with_cibw: true
       submodules: recursive
-      latest_python_version: 3.14
-      python_versions_json: '["3.14"]'
+      latest_python_version: ${{ fromJSON(needs.get-python-version.outputs.latest_python_version) }}
+      python_versions_json: ${{ needs.get-python-version.outputs.python_versions_json }}
