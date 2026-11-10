@@ -12,13 +12,13 @@ permissions:
 jobs:
   # Same chain as the release workflow: versions come from the classifiers.
   get-python-version:
-    uses: SYMSCAE/release-scripts/.github/workflows/_get-python-version-latest.yml@b2587d489d9a57082d752997ce20b51cc338eaa6
+    uses: SYMSCAE/release-scripts/.github/workflows/_get-python-version-latest.yml@5e7033306485f370cbbc349cce897eaf17dcbfbd
     with:
       python_version: 0
 
   wheel-extension:
     needs: [get-python-version]
-    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel.yml@b2587d489d9a57082d752997ce20b51cc338eaa6
+    uses: SYMSCAE/release-scripts/.github/workflows/_build-wheel.yml@5e7033306485f370cbbc349cce897eaf17dcbfbd
     with:
       project: diffpy.srreal
       c_extension: true
