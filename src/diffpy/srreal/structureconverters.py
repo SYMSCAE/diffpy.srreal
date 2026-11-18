@@ -15,6 +15,8 @@
 """Converters from other structure representations in Python to
 diffpy.srreal StructureAdapter classes."""
 
+import numpy
+
 from diffpy.srreal.srreal_ext import (
     AtomicStructureAdapter,
     PeriodicStructureAdapter,
@@ -75,24 +77,23 @@ def _fetchDiffPyStructureData(adpt, stru):
 
     No return value.
     """
-    from diffpy.srreal.srreal_ext import Atom as AdapterAtom
-
-    # copy atoms
-    adpt.clear()
-    adpt.reserve(len(stru))
-    aa = AdapterAtom()
-    for a0 in stru:
-        aa.atomtype = a0.element
-        aa.occupancy = a0.occupancy
-        aa.anisotropy = a0.anisotropy
-        # copy fractional coordinates
-        aa.xyz_cartn = a0.xyz
-        aa.uij_cartn = a0.U
-        adpt.append(aa)
+    n = len(stru)
+    atomtypes = [a.element for a in stru]
+    xyz = numpy.array([a.xyz for a in stru], dtype=float).reshape(n, 3)
+    occupancy = [a.occupancy for a in stru]
+    anisotropy = [a.anisotropy for a in stru]
+    uij = numpy.zeros((n, 3, 3))
+    if not all(anisotropy):
+        # Atom.U of isotropic atoms, without its cost per access
+        uiso = [0.0 if f else a.Uisoequiv for a, f in zip(stru, anisotropy)]
+        numpy.multiply.outer(uiso, stru.lattice.isotropicunit, out=uij)
+    if any(anisotropy):
+        uij[anisotropy] = [a.U for a, f in zip(stru, anisotropy) if f]
     if hasattr(adpt, "setLatPar"):
         adpt.setLatPar(*stru.lattice.cell_parms())
-        for aa in adpt:
-            adpt.toCartesian(aa)
+        adpt._setLatticeAtomArrays(atomtypes, xyz, occupancy, anisotropy, uij)
+    else:
+        adpt.setAtomArrays(atomtypes, xyz, occupancy, anisotropy, uij)
     return
 
 

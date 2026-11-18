@@ -59,19 +59,23 @@ def createStructureAdapter(stru):
     """
     if isinstance(stru, StructureAdapter):
         return stru
-    import inspect
-
-    # build fully-qualified names of Python types in method resolution order
     cls = type(stru)
-    fqnames = [str(tp).split("'")[1] for tp in inspect.getmro(cls)]
-    for fqn in fqnames:
-        if fqn not in _adapter_converters_registry:
-            continue
-        factory = _adapter_converters_registry[fqn]
-        return factory(stru)
-    # none of the registered factories could convert the stru object
-    emsg = "Cannot create structure adapter for %r." % (stru,)
-    raise TypeError(emsg)
+    factory = _adapter_converters_by_type.get(cls)
+    if factory is None:
+        import inspect
+
+        # fully-qualified names of Python types in method resolution order
+        fqnames = [str(tp).split("'")[1] for tp in inspect.getmro(cls)]
+        for fqn in fqnames:
+            if fqn in _adapter_converters_registry:
+                factory = _adapter_converters_registry[fqn]
+                break
+        else:
+            # none of the registered factories could convert the stru object
+            emsg = "Cannot create structure adapter for %r." % (stru,)
+            raise TypeError(emsg)
+        _adapter_converters_by_type[cls] = factory
+    return factory(stru)
 
 
 def RegisterStructureAdapter(fqname, fnc=None):
@@ -103,6 +107,7 @@ def RegisterStructureAdapter(fqname, fnc=None):
 
     def __wrapper(fnc):
         _adapter_converters_registry[fqname] = fnc
+        _adapter_converters_by_type.clear()
         return fnc
 
     if fnc is None:
@@ -111,6 +116,8 @@ def RegisterStructureAdapter(fqname, fnc=None):
 
 
 _adapter_converters_registry = {}
+# cache of the factories found for Python types
+_adapter_converters_by_type = {}
 
 EMPTY = _emptyStructureAdapter()
 del _emptyStructureAdapter
