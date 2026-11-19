@@ -1,0 +1,28 @@
+name: cibw wheels on four platforms
+
+on:
+  push:
+    branches:
+      - codex/ci-cuda-wheels-d6b8178
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Same chain as the release workflow: versions come from the classifiers.
+  get-python-version:
+    uses: scikit-package/release-scripts/.github/workflows/_get-python-version-latest.yml@v0
+    with:
+      python_version: 0
+
+  wheel-extension:
+    needs: [get-python-version]
+    uses: scikit-package/release-scripts/.github/workflows/_build-wheel.yml@v0
+    with:
+      project: diffpy.srreal
+      c_extension: true
+      build_c_ext_with_cibw: true
+      submodules: recursive
+      latest_python_version: ${{ fromJSON(needs.get-python-version.outputs.latest_python_version) }}
+      python_versions_json: ${{ needs.get-python-version.outputs.python_versions_json }}
