@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Unit tests for diffpy.srreal.calculationkernel."""
 
+import os
 import pickle
 
 import numpy
@@ -111,7 +112,7 @@ def test_cropped_peak_on_absolute_grid(restore_kernel):
 
 def test_cuda_missing(restore_kernel):
     names = availableCalculationKernels()
-    if "cuda" in names:
+    if "cuda" in names and os.environ.get("CUDA_VISIBLE_DEVICES") != "-1":
         pytest.skip("CUDA kernels available")
     for name in CUDA_KERNELS:
         assert name not in names
